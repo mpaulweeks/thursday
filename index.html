@@ -1,0 +1,85 @@
+<head>
+  <title>OUT OF TOUCH THURSDAY</title>
+  <link rel='icon' href='favicon.jpg' />
+  <style>
+    html,
+    body,
+    #welcome,
+    #clip {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+
+      cursor: none;
+      background: black;
+    }
+
+    #welcome {
+      cursor: pointer;
+      background-image: url('concept.jpg');
+      background-size: cover;
+      background-position-x: center;
+      background-position-y: bottom;
+    }
+
+    #clip {
+      width: auto;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, 0%);
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id='welcome'></div>
+  <video id='clip' class='hidden'></video>
+
+  <script>
+    const files = [
+      'acnh.mp4',
+      'bird.mp4',
+      'futurama.mp4',
+      'lorax.mp4',
+      'monkey.mp4',
+      'neutron.mp4',
+      'orig.mp4',
+      'skinner.mp4',
+      'steve.mp4',
+      'talkingHeads.mp4',
+      'waluigi.mp4',
+    ].map(f => `video/${f}`);
+    const shuffled = files.concat().sort(() => .5 - Math.random());
+    let index = -1;
+
+    const welcomeElm = document.getElementById('welcome');
+    const clipElm = document.getElementById('clip');
+
+    const playNext = () => {
+      index = (index + 1) % shuffled.length;
+      const clipSrc = shuffled[index];
+
+      welcomeElm.classList.add('hidden');
+      clipElm.classList.remove('hidden');
+      clipElm.setAttribute('src', clipSrc);
+      clipElm.play();
+    }
+    clipElm.addEventListener('ended', playNext);
+    document.body.addEventListener('click', playNext);
+    document.body.addEventListener('keydown', evt => {
+      if (evt.code === 'Space') {
+        playNext();
+      }
+      if (evt.code === 'KeyF') {
+        document.body.requestFullscreen();
+      }
+    });
+  </script>
+
+</body>
