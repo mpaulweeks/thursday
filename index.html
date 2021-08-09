@@ -57,8 +57,20 @@
       'talkingHeads.mp4',
       'waluigi.mp4',
     ].map(f => `video/${f}`);
+    
+    // shuffle and determine starting index off hash
     const shuffled = files.concat().sort(() => .5 - Math.random());
-    let index = -1;
+    let index = 0;
+    const hash = window.location.hash.substring(1);
+    if (hash.length > 0) {
+      const found = shuffled.findIndex(elm => elm.includes(hash));
+      if (found >= 0) {
+        index = found;
+      }
+    }
+    
+    // prepare for first playNext call
+    index--;
 
     const welcomeElm = document.getElementById('welcome');
     const clipElm = document.getElementById('clip');
